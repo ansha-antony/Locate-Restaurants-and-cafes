@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kerala Restaurants & Cafes</title>
+    <style>    h1 {
+        font-family: "Georgia", serif; /* New font */
+        color: #f0dacc; /* New color */
+        text-align: center;
+    }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: url('abcd.jpeg') no-repeat center center fixed;
+            background-size: cover;
+        }
+        .container {
+            width: 80%;
+            margin: auto;
+            padding: 20px;
+            background: rgba(106, 174, 219, 0);
+            border-radius: 10px;
+        }
+        .search-bar {
+            margin-bottom: 20px;
+        }
+        .district {
+            background: rgba(212, 204, 234, 0.538);
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .city, .restaurant {
+            background: rgba(255, 255, 255, 0.831);
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .menu {
+            display: none;
+            margin-top: 10px;
+        }
+        button {
+            padding: 5px 10px;
+            background: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Restaurants & Cafes in Kerala</h1>
+        
+        <div class="search-bar">
+            <input type="text" id="locationSearch" placeholder="Search by district or city">
+            <button onclick="searchLocation()">Search District/City</button>
+        </div>
+        
+        <div class="districts"></div>
+    </div>
+    
+    <script>
+        const districts = [
+            "Kasargod", "Kannur", "Wayanad", "Kozhikode", "Malappuram", 
+            "Palakkad", "Thrissur", "Ernakulam", "Idukki", "Kottayam", 
+            "Alappuzha", "Pathanamthitta", "Kollam", "Thiruvananthapuram"
+        ];
+        
+        document.addEventListener("DOMContentLoaded", function() {
+            const container = document.querySelector('.districts');
+            districts.forEach(district => {
+                let districtId = district.replace(/\s+/g, '-').toLowerCase(); // Ensure valid ID
+                let districtDiv = document.createElement('div');
+                districtDiv.className = 'district';
+                districtDiv.setAttribute('data-district', district.toLowerCase());
+                districtDiv.innerHTML = `
+                    <h2>${district}</h2>
+                    <div class='city'>
+                        <h3>Main City</h3>
+                        <div class='restaurant'>
+                            <h4>Sample Restaurant</h4>
+                            <button onclick="toggleMenu('${districtId}')">View Menu</button>
+                            <div id='${districtId}' class='menu'>
+                                <ul>
+                                    <li>Sample Dish - ₹100</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>`;
+                container.appendChild(districtDiv);
+            });
+        });
+
+        function toggleMenu(id) {
+            var menu = document.getElementById(id);
+            if (menu) {
+                menu.style.display = (menu.style.display === "none" || menu.style.display === "") ? "block" : "none";
+            }
+        }
+
+        function searchLocation() {
+            var input = document.getElementById("locationSearch").value.toLowerCase();
+            var districts = document.getElementsByClassName("district");
+            
+            for (var i = 0; i < districts.length; i++) {
+                var district = districts[i].getAttribute("data-district");
+                var showDistrict = district.includes(input);
+                districts[i].style.display = showDistrict ? "block" : "none";
+            }
+        }
+    </script>
+</body>
+</html>
